@@ -1,2 +1,2 @@
-# Guru-spring-data-jpa-hibernate
-Demo project for Spring Data JPA and Hibernate
+# Guru-spring-data-jpa-jpa
+Demo project for Spring Data JPA using JPA
