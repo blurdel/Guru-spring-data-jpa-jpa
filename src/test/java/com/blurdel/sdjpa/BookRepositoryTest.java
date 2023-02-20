@@ -1,9 +1,10 @@
 package com.blurdel.sdjpa;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,22 @@ public class BookRepositoryTest {
 
 	@Autowired
 	BookRepository bookRepo;
+
 	
+	@Test
+	void testBookStream() {
+		AtomicInteger count = new AtomicInteger();
+		
+		bookRepo.findAllByTitleNotNull().forEach(book -> {
+			count.incrementAndGet();
+		});
+		
+		assertThat(count.get()).isGreaterThan(4);
+	}
 	
+	// NOTE: these test(s) required adding package-info.java to repositories to include: @org.springframework.lang.NonNullApi
+	// Tells Spring to implement the null behavior for any repository in the package
+	// Otherwise a unit test fails
 	@Test
 	void testEmptyResultException() {
 		
