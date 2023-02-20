@@ -1,6 +1,7 @@
 package com.blurdel.sdjpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.blurdel.sdjpa.dao.BookDao;
@@ -70,11 +72,10 @@ public class BookDaoIntegrationTest {
 
         bookDao.delete(saved.getId());
         
-        Book deleted = bookDao.findById(saved.getId());
-        assertThat(deleted).isNull();
-
-        // Double-check
-        assertThat(bookDao.findById(saved.getId())).isNull();
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
+        	bookDao.findById(saved.getId());
+        });
+        
     }
 
     @Test
