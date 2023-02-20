@@ -5,13 +5,23 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.blurdel.sdjpa.domain.Author;
+import com.blurdel.sdjpa.repository.AuthorRepository;
+
+import jakarta.transaction.Transactional;
 
 @Component
 public class AuthorDaoImpl implements AuthorDao {
 
+	private final AuthorRepository authorRepo;
+	
+	
+	public AuthorDaoImpl(AuthorRepository authorRepository) {
+		this.authorRepo = authorRepository;
+	}
+
 	@Override
 	public Author findById(Long id) {
-		return null;
+		return authorRepo.getById(id);
 	}
 
 	@Override
@@ -21,17 +31,21 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public Author saveNew(Author author) {
-		return null;
+		return authorRepo.save(author);
 	}
 
+	@Transactional
 	@Override
 	public Author update(Author author) {
-		return null;
+		Author fetched = authorRepo.getById(author.getId());
+		fetched.setFirstName(author.getFirstName());
+		fetched.setLastName(author.getLastName());
+		return authorRepo.save(fetched);
 	}
 
 	@Override
 	public void delete(Long id) {
-		
+		authorRepo.deleteById(id);
 	}
 	
 }
