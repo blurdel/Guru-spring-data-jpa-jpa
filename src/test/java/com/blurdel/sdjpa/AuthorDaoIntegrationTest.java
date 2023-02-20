@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
+import org.hibernate.proxy.EntityNotFoundDelegate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import com.blurdel.sdjpa.dao.AuthorDao;
 import com.blurdel.sdjpa.dao.AuthorDaoImpl;
 import com.blurdel.sdjpa.domain.Author;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @ActiveProfiles("mysql")
 @DataJpaTest
@@ -88,6 +91,13 @@ class AuthorDaoIntegrationTest {
 //		assertThrows(EmptyResultDataAccessException.class, () -> {
 //			authorDao.getByName("David", "Anderson");
 //		});
+	}
+	
+	@Test
+	void testGetAuthorByNameNotFound() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			Author author = authorDao.findByName("foo", "bar");
+		});
 	}
 	
 	@Test

@@ -1,12 +1,11 @@
 package com.blurdel.sdjpa.dao;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.blurdel.sdjpa.domain.Author;
 import com.blurdel.sdjpa.repository.AuthorRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Component
@@ -26,7 +25,8 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public Author findByName(String firstName, String lastName) {
-		return authorRepo.findAuthorByFirstNameAndLastName(firstName, lastName);
+		return authorRepo.findAuthorByFirstNameAndLastName(firstName, lastName)
+				.orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
