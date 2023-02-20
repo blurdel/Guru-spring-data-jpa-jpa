@@ -73,7 +73,7 @@ public class BookDaoIntegrationTest {
         bookDao.delete(saved.getId());
         
         assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-        	bookDao.findById(saved.getId());
+        	bookDao.getById(saved.getId());
         });
         
     }
@@ -91,7 +91,7 @@ public class BookDaoIntegrationTest {
         saved.setTitle("New Book");
         bookDao.update(saved);
         
-        Book fetched = bookDao.findById(saved.getId());
+        Book fetched = bookDao.getById(saved.getId());
 
         assertThat(fetched.getTitle()).isEqualTo("New Book");
     }
@@ -118,7 +118,7 @@ public class BookDaoIntegrationTest {
 
     @Test
     void testGetBook() {
-        Book book = bookDao.findById(3L);
+        Book book = bookDao.getById(3L);
         assertThat(book.getId()).isNotNull();
     }
     
