@@ -21,6 +21,11 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
+	public List<Book> findAllBooks() {
+		return null;
+	}
+	
+	@Override
 	public Book getById(Long id) {
 		return bookRepo.getById(id);
 	}

@@ -6,6 +6,8 @@ import com.blurdel.sdjpa.domain.Book;
 
 public interface BookDao {
 	
+	List<Book> findAllBooks();
+	
 	Book getById(Long id);
 	
 	Book findByTitle(String title);
