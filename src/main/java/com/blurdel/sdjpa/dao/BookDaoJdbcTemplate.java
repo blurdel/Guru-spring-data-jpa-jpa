@@ -16,6 +16,12 @@ private final JdbcTemplate template;
 		this.template = template;
 	}
 
+	
+	@Override
+	public List<Book> findAllBooks(int pageSize, int offset) {
+		return template.query("select * from book limit ? offset ?", getRowMapper(), pageSize, offset);
+	}
+	
 	@Override
 	public List<Book> findAllBooks() {
 		return template.query("select * from book", getRowMapper());

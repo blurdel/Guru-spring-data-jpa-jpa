@@ -39,6 +39,30 @@ public class BookDaoJDBCTemplateTest {
     }
 	
 	@Test
+	void testFindAllBookPage1() {
+		List<Book> books = bookDao.findAllBooks(10, 0);
+		
+		assertThat(books).isNotNull();
+		assertThat(books.size()).isEqualTo(10);
+	}
+	
+	@Test
+	void testFindAllBookPage2() {
+		List<Book> books = bookDao.findAllBooks(10, 10);
+		
+		assertThat(books).isNotNull();
+		assertThat(books.size()).isEqualTo(10);
+	}
+	
+	@Test
+	void testFindAllBookPage10() {
+		List<Book> books = bookDao.findAllBooks(10, 100); // If you exceed # rows in table, will get 0 recs back
+		
+		assertThat(books).isNotNull();
+		assertThat(books.size()).isEqualTo(0);
+	}
+	
+	@Test
 	void testFindAllBooks() {
 		List<Book> books = bookDao.findAllBooks();
 		
