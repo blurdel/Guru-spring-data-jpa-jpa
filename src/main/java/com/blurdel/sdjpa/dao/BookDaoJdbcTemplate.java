@@ -2,6 +2,7 @@ package com.blurdel.sdjpa.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -16,6 +17,12 @@ private final JdbcTemplate template;
 		this.template = template;
 	}
 
+	
+	@Override
+	public List<Book> findAllBooks(Pageable pageable) {
+		return template.query("select * from book limit ? offset ?", getRowMapper(), 
+				pageable.getPageSize(), pageable.getOffset());
+	}
 	
 	@Override
 	public List<Book> findAllBooks(int pageSize, int offset) {

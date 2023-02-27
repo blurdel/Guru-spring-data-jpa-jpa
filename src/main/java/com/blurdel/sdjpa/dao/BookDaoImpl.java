@@ -2,6 +2,7 @@ package com.blurdel.sdjpa.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.blurdel.sdjpa.domain.Book;
@@ -20,6 +21,11 @@ public class BookDaoImpl implements BookDao {
 		this.bookRepo = bookRepo;
 	}
 
+	
+	@Override
+	public List<Book> findAllBooks(Pageable pageable) {
+		return null;
+	}
 	
 	@Override
 	public List<Book> findAllBooks(int pageSize, int offset) {

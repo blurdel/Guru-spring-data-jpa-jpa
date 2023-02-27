@@ -2,9 +2,13 @@ package com.blurdel.sdjpa.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.blurdel.sdjpa.domain.Book;
 
 public interface BookDao {
+	
+	List<Book> findAllBooks(Pageable pageable);
 	
 	List<Book> findAllBooks(int pageSize, int offset);
 	
