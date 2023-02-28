@@ -8,6 +8,8 @@ import com.blurdel.sdjpa.domain.Book;
 
 public interface BookDao {
 	
+	List<Book> findAllBooksSortedByTitle(Pageable pageable);
+	
 	List<Book> findAllBooks(Pageable pageable);
 	
 	List<Book> findAllBooks(int pageSize, int offset);

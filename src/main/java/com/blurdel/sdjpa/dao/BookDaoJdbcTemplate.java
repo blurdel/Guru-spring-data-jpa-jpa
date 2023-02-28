@@ -19,6 +19,17 @@ private final JdbcTemplate template;
 
 	
 	@Override
+	public List<Book> findAllBooksSortedByTitle(Pageable pageable) {
+		String sql = "select * from book order by title " + 
+				pageable.getSort().getOrderFor("title").getDirection().name()
+				+ " limit ? offset ?";
+		
+		System.out.println(sql);
+		
+		return template.query(sql, getRowMapper(), pageable.getPageSize(), pageable.getOffset());
+	}
+	
+	@Override
 	public List<Book> findAllBooks(Pageable pageable) {
 		return template.query("select * from book limit ? offset ?", getRowMapper(), 
 				pageable.getPageSize(), pageable.getOffset());
