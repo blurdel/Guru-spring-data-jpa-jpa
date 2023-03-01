@@ -1,5 +1,8 @@
 package com.blurdel.sdjpa.dao;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.blurdel.sdjpa.domain.Author;
@@ -18,6 +21,12 @@ public class AuthorDaoImpl implements AuthorDao {
 		this.authorRepo = authorRepository;
 	}
 
+	
+	@Override
+	public List<Author> findAllAuthorsByLastName(String lastName, Pageable pageable) {
+		return null;
+	}
+	
 	@Override
 	public Author findById(Long id) {
 		return authorRepo.getById(id);
