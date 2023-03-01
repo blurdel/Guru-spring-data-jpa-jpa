@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.blurdel.sdjpa.dao.BookDao;
@@ -43,7 +44,11 @@ public class BookDaoHibernateTest {
 	
 	@Test
 	void testFindAllBooksSortByTitle() {
+		List<Book> books = bookDao.findAllBooksSortedByTitle(PageRequest.of(0, 10,
+				Sort.by(Sort.Order.desc("title"))));
 		
+		assertThat(books).isNotNull();
+		assertThat(books.size()).isEqualTo(10);
 	}
 	
 	@Test
