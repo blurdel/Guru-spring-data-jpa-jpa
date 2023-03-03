@@ -5,40 +5,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.blurdel.sdjpa.dao.BookDao;
-import com.blurdel.sdjpa.dao.BookDaoJdbcTemplate;
 import com.blurdel.sdjpa.domain.Book;
+
 
 @ActiveProfiles("mysql")
 @DataJpaTest
 @ComponentScan(basePackages = {"com.blurdel.sdjpa.dao"})
-//@Import(BookDaoImpl.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class BookDaoJDBCTemplateTest {
+public class BookDaoImplTest {
 
 	@Autowired
-    JdbcTemplate jdbcTemplate;
-	
-	//@Autowired
 	BookDao bookDao;
-	
-	
-	@BeforeEach
-    void setUp() {
-        bookDao = new BookDaoJdbcTemplate(jdbcTemplate);
-    }
 	
 	
 	@Test
@@ -112,14 +100,12 @@ public class BookDaoJDBCTemplateTest {
         book.setIsbn("1234");
         book.setPublisher("Self");
         book.setTitle("my book");
-        book.setAuthorId(1L);
-        
         Book saved = bookDao.saveNew(book);
 
         bookDao.delete(saved.getId());
 
         // Verify an exception is thrown
-        assertThrows(EmptyResultDataAccessException.class, () -> {
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
         	bookDao.getById(saved.getId());
         });
         

@@ -2,6 +2,8 @@ package com.blurdel.sdjpa.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -24,22 +26,33 @@ public class BookDaoImpl implements BookDao {
 	
 	@Override
 	public List<Book> findAllBooksSortedByTitle(Pageable pageable) {
-		return null;
+		Page<Book> bookPage = bookRepo.findAll(pageable);
+		
+		return bookPage.getContent(); // This method was also called with Sorting, nice way to do paging
 	}
 	
 	@Override
 	public List<Book> findAllBooks(Pageable pageable) {
-		return null;
+		return bookRepo.findAll(pageable).getContent();
 	}
 	
 	@Override
 	public List<Book> findAllBooks(int pageSize, int offset) {
-		return null;
+		Pageable pageable = PageRequest.ofSize(pageSize);
+		
+		if (offset > 0) {
+			pageable = pageable.withPage(offset / pageSize);
+		}
+		else {
+			pageable = pageable.withPage(0);
+		}
+		
+		return findAllBooks(pageable);
 	}
 	
 	@Override
 	public List<Book> findAllBooks() {
-		return null;
+		return bookRepo.findAll();
 	}
 	
 	@Override
